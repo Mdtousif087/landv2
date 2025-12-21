@@ -1,11 +1,11 @@
 import axios from "axios";
 import crypto from "crypto";
 
-// Environment variables
-const AES_KEY = process.env.AES_KEY || "RTO@N@1V@$U2024#";
-const API_ENDPOINT = process.env.API_ENDPOINT || "https://rcdetailsapi.vehicleinfo.app/api/vasu_rc_doc_details";
-const API_KEY_PARAM = process.env.API_KEY_PARAM || "4svShi1T5ftaZPNNHhJzig===";
-const API_ACCESS_KEY = process.env.API_ACCESS_KEY || "YOUR_SECRET_KEY_HERE"; // ✅ New environment variable
+
+const AES_KEY = process.env.AES_KEY;
+const API_ENDPOINT = process.env.API_ENDPOINT;
+const API_KEY_PARAM = process.env.API_KEY_PARAM;
+const API_ACCESS_KEY = process.env.API_ACCESS_KEY;
 
 const AES_ALGORITHM = "aes-128-ecb";
 
