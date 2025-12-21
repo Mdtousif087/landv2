@@ -1,10 +1,11 @@
 import axios from "axios";
 import crypto from "crypto";
 
-// Environment variables se values lo
+// Environment variables
 const AES_KEY = process.env.AES_KEY || "RTO@N@1V@$U2024#";
 const API_ENDPOINT = process.env.API_ENDPOINT || "https://rcdetailsapi.vehicleinfo.app/api/vasu_rc_doc_details";
 const API_KEY_PARAM = process.env.API_KEY_PARAM || "4svShi1T5ftaZPNNHhJzig===";
+const API_ACCESS_KEY = process.env.API_ACCESS_KEY || "YOUR_SECRET_KEY_HERE"; // ✅ New environment variable
 
 const AES_ALGORITHM = "aes-128-ecb";
 
@@ -39,6 +40,15 @@ export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
 
   const vehicle_number = req.query.vehicle_number;
+  const key = req.query.key; // ✅ Key parameter
+
+  // ✅ Check API key authentication
+  if (!key || key !== API_ACCESS_KEY) {
+    return res.status(401).json({
+      error: "Unauthorized",
+      message: "Valid API key required"
+    });
+  }
 
   if (!vehicle_number) {
     return res.status(400).json({
@@ -50,10 +60,10 @@ export default async function handler(req, res) {
     const encrypted = encrypt(vehicle_number);
 
     const body = new URLSearchParams();
-    body.append(API_KEY_PARAM, encrypted); // ✅ Environment variable use karo
+    body.append(API_KEY_PARAM, encrypted);
 
     const response = await axios.post(
-      API_ENDPOINT, // ✅ Environment variable use karo
+      API_ENDPOINT,
       body.toString(),
       {
         headers: {
@@ -88,4 +98,4 @@ export default async function handler(req, res) {
       hint: "Upstream rejected request"
     });
   }
-  }
+}
