@@ -23,28 +23,12 @@ class handler(BaseHTTPRequestHandler):
             return
         
         try:
-            # Call new API
-            url = f"https://admin.gbssystems.com/public/storage/customer/28/vehicle/index.php?q={vehicle}"
+            # Call your API
+            url = f"http://195.114.193.191:5019/{vehicle}"
             response = requests.get(url, timeout=10)
             
-            # Parse the response
-            data = response.json()
-            
-            # Extract mobile_no from the response
-            mobile_no = None
-            if data.get('rc_data') and data['rc_data'].get('data'):
-                # Get the first item in data array (assuming there's at least one)
-                vehicle_data = data['rc_data']['data'][0]
-                mobile_no = vehicle_data.get('mobile_no')
-            
-            # Create simplified response
-            simplified_response = {
-                "mobile_no": mobile_no,
-                "vehicle_number": vehicle
-            }
-            
-            # Return simplified response
-            self.wfile.write(json.dumps(simplified_response, indent=2).encode())
+            # Return same response
+            self.wfile.write(response.content)
             
         except Exception as e:
             self.wfile.write(json.dumps({
